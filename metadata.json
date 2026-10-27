@@ -1,0 +1,6 @@
+{
+  "name": "Phishing Awareness Training",
+  "description": "Interactive cybersecurity training module on recognizing phishing emails, fake websites, social engineering tactics, and real-world breach cases with an interactive quiz and certification.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

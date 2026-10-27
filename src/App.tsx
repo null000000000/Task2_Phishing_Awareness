@@ -14,18 +14,8 @@ import { CaseStudies } from './components/CaseStudies';
 import { SafetyChecklist } from './components/SafetyChecklist';
 import { QuizSection } from './components/QuizSection';
 import { Footer } from './components/Footer';
-import { Language } from './data/trainingData';
 
 export default function App() {
-  const [lang, setLang] = useState<Language>(() => {
-    try {
-      const saved = localStorage.getItem('phish_lang');
-      return saved === 'en' || saved === 'ar' ? saved : 'ar';
-    } catch {
-      return 'ar';
-    }
-  });
-
   const [isDark, setIsDark] = useState<boolean>(() => {
     try {
       const saved = localStorage.getItem('phish_theme');
@@ -38,16 +28,11 @@ export default function App() {
 
   const [activeSection, setActiveSection] = useState<string>('what');
 
-  // Sync RTL / LTR and HTML lang
+  // Enforce English lang and ltr
   useEffect(() => {
-    document.documentElement.lang = lang;
-    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-    try {
-      localStorage.setItem('phish_lang', lang);
-    } catch {
-      // ignore
-    }
-  }, [lang]);
+    document.documentElement.lang = 'en';
+    document.documentElement.dir = 'ltr';
+  }, []);
 
   // Sync Dark mode class
   useEffect(() => {
@@ -91,10 +76,6 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleToggleLang = () => {
-    setLang((prev) => (prev === 'ar' ? 'en' : 'ar'));
-  };
-
   const handleToggleDark = () => {
     setIsDark((prev) => !prev);
   };
@@ -102,25 +83,23 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
       <Navbar
-        lang={lang}
-        onToggleLang={handleToggleLang}
         isDark={isDark}
         onToggleDark={handleToggleDark}
         activeSection={activeSection}
       />
 
       <main className="flex-1">
-        <Hero lang={lang} />
-        <WhatIsPhishing lang={lang} />
-        <EmailSimulator lang={lang} />
-        <DomainInspector lang={lang} />
-        <SocialEngineering lang={lang} />
-        <CaseStudies lang={lang} />
-        <SafetyChecklist lang={lang} />
-        <QuizSection lang={lang} />
+        <Hero />
+        <WhatIsPhishing />
+        <EmailSimulator />
+        <DomainInspector />
+        <SocialEngineering />
+        <CaseStudies />
+        <SafetyChecklist />
+        <QuizSection />
       </main>
 
-      <Footer lang={lang} />
+      <Footer />
     </div>
   );
 }

@@ -16,10 +16,8 @@ export interface ParsedUrlAnalysis {
   riskScore: number; // 0 (extreme danger) to 100 (safe)
   flags: Array<{
     id: string;
-    titleEn: string;
-    titleAr: string;
-    descriptionEn: string;
-    descriptionAr: string;
+    title: string;
+    description: string;
     severity: 'danger' | 'warning' | 'info';
   }>;
 }
@@ -84,10 +82,8 @@ export function parseDomainUrl(input: string): ParsedUrlAnalysis {
       flags: [
         {
           id: 'invalid-url',
-          titleEn: 'Malformed Address',
-          titleAr: 'عنوان غير صالح',
-          descriptionEn: 'The address format is invalid and could be an obfuscated exploit.',
-          descriptionAr: 'صيغة العنوان غير صالحة وقد تكون محاولة تمويه خبيثة.',
+          title: 'Malformed Address',
+          description: 'The address format is invalid and could be an obfuscated exploit.',
           severity: 'danger',
         },
       ],
@@ -106,7 +102,6 @@ export function parseDomainUrl(input: string): ParsedUrlAnalysis {
 
   if (parts.length >= 2) {
     tld = parts[parts.length - 1];
-    // Check for two-part TLD like .co.uk
     if (parts.length >= 3 && ['co', 'com', 'org', 'net', 'edu', 'gov'].includes(parts[parts.length - 2])) {
       tld = `${parts[parts.length - 2]}.${parts[parts.length - 1]}`;
       registeredDomain = `${parts[parts.length - 3]}.${tld}`;
@@ -126,10 +121,8 @@ export function parseDomainUrl(input: string): ParsedUrlAnalysis {
   if (!isHttps) {
     flags.push({
       id: 'no-https',
-      titleEn: 'Unencrypted HTTP Connection',
-      titleAr: 'اتصال غير مشفر (HTTP)',
-      descriptionEn: 'Credentials entered here travel in plaintext and can be intercepted.',
-      descriptionAr: 'البيانات المرسلة عبر هذا الرابط غير مشفرة ويمكن اعتراضها بسهولة.',
+      title: 'Unencrypted HTTP Connection',
+      description: 'Credentials entered here travel in plaintext and can be intercepted.',
       severity: 'warning',
     });
     score -= 20;
@@ -140,25 +133,21 @@ export function parseDomainUrl(input: string): ParsedUrlAnalysis {
   if (isIp) {
     flags.push({
       id: 'ip-address',
-      titleEn: 'Raw IP Address Used',
-      titleAr: 'استخدام عنوان IP مباشر',
-      descriptionEn: 'Legitimate services use branded domain names, not direct IP addresses.',
-      descriptionAr: 'الخدمات الرسمية تستخدم نطاقات معتمدة بدلاً من أرقام IP المباشرة.',
+      title: 'Raw IP Address Used',
+      description: 'Legitimate services use branded domain names, not direct IP addresses.',
       severity: 'danger',
     });
     score -= 40;
   }
 
-  // 3. Subdomain brand spoofing (brand appears in subdomain, but not in registered domain)
+  // 3. Subdomain brand spoofing
   const regDomainName = registeredDomain.split('.')[0] || '';
   for (const brand of COMMON_TARGETED_BRANDS) {
     if (subdomain.includes(brand) && !regDomainName.includes(brand)) {
       flags.push({
         id: `brand-subdomain-${brand}`,
-        titleEn: `Deceptive Subdomain (${brand})`,
-        titleAr: `اسم علامة تجارية في النطاق الفرعي (${brand})`,
-        descriptionEn: `The attacker placed '${brand}' in the subdomain to trick you. The REAL domain is '${registeredDomain}'.`,
-        descriptionAr: `قام المهاجم بوضع '${brand}' في النطاق الفرعي لخداعك، بينما النطاق الفعلي الحقيقي هو '${registeredDomain}'.`,
+        title: `Deceptive Subdomain (${brand})`,
+        description: `The attacker placed '${brand}' in the subdomain to trick you. The REAL domain is '${registeredDomain}'.`,
         severity: 'danger',
       });
       score -= 50;
@@ -166,7 +155,7 @@ export function parseDomainUrl(input: string): ParsedUrlAnalysis {
     }
   }
 
-  // 4. Look-alike characters (homoglyphs / typosquatting like paypa1, micros0ft, goog1e)
+  // 4. Look-alike characters
   const typosquatMap: Record<string, string[]> = {
     paypal: ['paypa1', 'pay-pal', 'paypa-l', 'paypall'],
     microsoft: ['micros0ft', 'micro-soft', 'm1crosoft'],
@@ -180,10 +169,8 @@ export function parseDomainUrl(input: string): ParsedUrlAnalysis {
       if (regDomainName.includes(fake)) {
         flags.push({
           id: `typosquat-${fake}`,
-          titleEn: `Look-alike Brand Typosquatting (${fake})`,
-          titleAr: `تشابه مضلل في الأحرف (${fake})`,
-          descriptionEn: `Swapped characters (e.g. number 1 for letter l, or 0 for o) mimicking '${realBrand}'.`,
-          descriptionAr: `استبدال أحرف متطابقة بصرياً (مثل الرقم 1 بدلاً من حرف l) لانتحال '${realBrand}'.`,
+          title: `Look-alike Brand Typosquatting (${fake})`,
+          description: `Swapped characters (e.g. number 1 for letter l, or 0 for o) mimicking '${realBrand}'.`,
           severity: 'danger',
         });
         score -= 50;
@@ -196,10 +183,8 @@ export function parseDomainUrl(input: string): ParsedUrlAnalysis {
   if (SUSPICIOUS_TLDS.some((stld) => tld.endsWith(stld))) {
     flags.push({
       id: 'suspicious-tld',
-      titleEn: `High-Risk Top Level Domain (.${tld})`,
-      titleAr: `امتداد نطاق عالي الخطورة (.${tld})`,
-      descriptionEn: `The .${tld} extension is frequently favored by mass phishing campaigns.`,
-      descriptionAr: `الامتداد .${tld} يُستخدم بكثرة في حملات التصيد الجماعية والمواقع الاحتيالية.`,
+      title: `High-Risk Top Level Domain (.${tld})`,
+      description: `The .${tld} extension is frequently favored by mass phishing campaigns.`,
       severity: 'warning',
     });
     score -= 25;
@@ -210,10 +195,8 @@ export function parseDomainUrl(input: string): ParsedUrlAnalysis {
   if (hyphenCount >= 2) {
     flags.push({
       id: 'excessive-hyphens',
-      titleEn: 'Excessive Hyphens in Domain',
-      titleAr: 'فواصل وشرطات متعددة بالنطاق',
-      descriptionEn: 'Phishers often string words together (e.g., brand-secure-login-verify).',
-      descriptionAr: 'المهاجمون يدمجون كلمات متعددة مثل support-security-update للتمويه.',
+      title: 'Excessive Hyphens in Domain',
+      description: 'Phishers often string words together (e.g., brand-secure-login-verify).',
       severity: 'warning',
     });
     score -= 15;
@@ -249,10 +232,8 @@ export interface QuizEvaluation {
   percentage: number;
   passed: boolean;
   statusLevel: 'expert' | 'proficient' | 'needs_practice';
-  titleEn: string;
-  titleAr: string;
-  feedbackEn: string;
-  feedbackAr: string;
+  title: string;
+  feedback: string;
 }
 
 export function calculateQuizResult(score: number, total: number): QuizEvaluation {
@@ -266,10 +247,8 @@ export function calculateQuizResult(score: number, total: number): QuizEvaluatio
       percentage,
       passed: true,
       statusLevel: 'expert',
-      titleEn: 'Cyber Defense Specialist',
-      titleAr: 'خبير دفاع سيبراني متقدم',
-      feedbackEn: 'Outstanding! You identified all phishing vectors, deceptive domains, and psychological traps perfectly.',
-      feedbackAr: 'ممتاز جداً! لقد نجحت في كشف جميع أساليب التصيد والنطاقات المضللة والفخاخ النفسية بامتياز.',
+      title: 'Cyber Defense Specialist',
+      feedback: 'Outstanding! You identified all phishing vectors, deceptive domains, and psychological traps perfectly.',
     };
   }
 
@@ -280,10 +259,8 @@ export function calculateQuizResult(score: number, total: number): QuizEvaluatio
       percentage,
       passed: true,
       statusLevel: 'proficient',
-      titleEn: 'Phishing Aware Defender',
-      titleAr: 'مدافع سيبراني واعي',
-      feedbackEn: 'Good job! You have solid awareness of deceptive tactics. Review the questions you missed for total mastery.',
-      feedbackAr: 'عمل رائع! تمتلك وعياً أمنياً قوياً يحميك من معظم الهجمات. راجع الأسئلة المتبقية للوصول للاحتراف الكامل.',
+      title: 'Phishing Aware Defender',
+      feedback: 'Good job! You have solid awareness of deceptive tactics. Review the questions you missed for total mastery.',
     };
   }
 
@@ -293,10 +270,8 @@ export function calculateQuizResult(score: number, total: number): QuizEvaluatio
     percentage,
     passed: false,
     statusLevel: 'needs_practice',
-    titleEn: 'Vulnerable to Phishing Bait',
-    titleAr: 'تحتاج للمزيد من التدريب',
-    feedbackEn: 'Phishers exploit subtle details. Re-read the email red flags and domain rules before attempting again.',
-    feedbackAr: 'المهاجمون يعتمدون على التفاصيل الدقيقة. أعد قراءة علامات الخطر وتحليل النطاقات ثم أعد الاختبار.',
+    title: 'Vulnerable to Phishing Bait',
+    feedback: 'Phishers exploit subtle details. Re-read the email red flags and domain rules before attempting again.',
   };
 }
 
@@ -304,34 +279,27 @@ export interface ChecklistStatus {
   completedCount: number;
   totalCount: number;
   percentage: number;
-  levelEn: string;
-  levelAr: string;
+  level: string;
 }
 
 export function calculateChecklistProgress(completedCount: number, totalCount: number): ChecklistStatus {
   const percentage = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
-  let levelEn = 'Vulnerable';
-  let levelAr = 'معرض للخطر';
+  let level = 'Vulnerable';
 
   if (percentage === 100) {
-    levelEn = 'Fortified & Resilient';
-    levelAr = 'محصن ومحمي بالكامل';
+    level = 'Fortified & Resilient';
   } else if (percentage >= 75) {
-    levelEn = 'High Security Posture';
-    levelAr = 'مستوى أمان متقدم';
+    level = 'High Security Posture';
   } else if (percentage >= 50) {
-    levelEn = 'Moderate Defense';
-    levelAr = 'دفاع متوسط';
+    level = 'Moderate Defense';
   } else if (percentage > 0) {
-    levelEn = 'Basic Measures Active';
-    levelAr = 'إجراءات أولية';
+    level = 'Basic Measures Active';
   }
 
   return {
     completedCount,
     totalCount,
     percentage,
-    levelEn,
-    levelAr,
+    level,
   };
 }

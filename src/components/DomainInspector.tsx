@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
-import { Search, ShieldAlert, ShieldCheck, AlertTriangle, ExternalLink, Lock, Unlock, HelpCircle } from 'lucide-react';
-import { DOMAIN_EXAMPLES, Language } from '../data/trainingData';
+import { Search, ShieldAlert, ShieldCheck, AlertTriangle, Lock, Unlock, HelpCircle } from 'lucide-react';
+import { DOMAIN_EXAMPLES } from '../data/trainingData';
 import { parseDomainUrl, ParsedUrlAnalysis } from '../utils/phishingLogic';
-
-interface DomainInspectorProps {
-  lang: Language;
-}
 
 const PRESET_URLS = [
   'http://paypal.secure-login.verify-now.ru/account',
@@ -16,8 +12,7 @@ const PRESET_URLS = [
   'https://www.paypal.com/signin',
 ];
 
-export const DomainInspector: React.FC<DomainInspectorProps> = ({ lang }) => {
-  const isAr = lang === 'ar';
+export const DomainInspector: React.FC = () => {
   const [inputUrl, setInputUrl] = useState<string>(PRESET_URLS[0]);
   const analysis: ParsedUrlAnalysis = parseDomainUrl(inputUrl);
 
@@ -27,15 +22,13 @@ export const DomainInspector: React.FC<DomainInspectorProps> = ({ lang }) => {
         {/* Section Header */}
         <div className="max-w-3xl mb-12">
           <div className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-teal-600 dark:text-teal-400 mb-2">
-            {isAr ? 'المحور الثالث: كشف المواقع المزيفة' : 'Module 03: Fake Websites & Domain Anatomy'}
+            Module 03: Fake Websites & Domain Anatomy
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 [text-wrap:balance]">
-            {isAr ? 'كيف تميز الموقع المزيف والنطاق الاحتيالي؟' : 'How to Recognize a Fake Website'}
+            How to Recognize a Fake Website
           </h2>
           <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-            {isAr
-              ? 'المهاجمون ينسخون تصميم الموقع الحقيقي بدقة متناهية، لكن الشيء الوحيد الذي يعجزون عن تزويره هو اسم النطاق الرسمي. القاعدة الذهبية: اقرأ عنوان الرابط من اليمين إلى اليسار وصولاً إلى أول شرطة مائلة مفردة (/).'
-              : 'Attackers replicate real website designs down to the exact pixel and font. The only attribute they cannot counterfeit is the legally registered root domain name. Read the URL from right to left, up to the first single slash.'}
+            Attackers replicate real website designs down to the exact pixel and font. The only attribute they cannot counterfeit is the legally registered root domain name. Read the URL from right to left, up to the first single slash.
           </p>
         </div>
 
@@ -43,7 +36,7 @@ export const DomainInspector: React.FC<DomainInspectorProps> = ({ lang }) => {
         <div className="mb-10 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">
           <h3 className="text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-2">
             <HelpCircle className="w-4 h-4 text-teal-600 dark:text-teal-400" />
-            <span>{isAr ? 'تشريح بنية الرابط (قاعدة اليمين لليسار):' : 'The Right-to-Left Domain Reading Rule:'}</span>
+            <span>The Right-to-Left Domain Reading Rule:</span>
           </h3>
 
           <div dir="ltr" className="p-4 rounded-xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 font-mono text-sm sm:text-base overflow-x-auto flex flex-wrap items-center gap-1.5 text-left">
@@ -62,19 +55,19 @@ export const DomainInspector: React.FC<DomainInspectorProps> = ({ lang }) => {
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-rose-500 shrink-0" />
               <span>
-                <strong>{isAr ? 'النطاق الفرعي (Subdomain):' : 'Subdomain:'}</strong> {isAr ? 'اسم للتمويه فقط' : 'Deceptive bait string'}
+                <strong>Subdomain:</strong> Deceptive bait string
               </span>
             </div>
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-emerald-500 shrink-0" />
               <span>
-                <strong>{isAr ? 'النطاق الفعلي الحقيقي:' : 'Registered Root Domain:'}</strong> {isAr ? 'الموقع الفعلي الذي تزوره!' : 'Where your data actually goes!'}
+                <strong>Registered Root Domain:</strong> Where your data actually goes!
               </span>
             </div>
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-slate-400 shrink-0" />
               <span>
-                <strong>{isAr ? 'المسار والصفحة:' : 'Path / Resource:'}</strong> {isAr ? 'صفحة داخلية بالخادم' : 'Target page on server'}
+                <strong>Path / Resource:</strong> Target page on server
               </span>
             </div>
           </div>
@@ -86,10 +79,10 @@ export const DomainInspector: React.FC<DomainInspectorProps> = ({ lang }) => {
             <div>
               <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                 <Search className="w-5 h-5 text-teal-600 dark:text-teal-400" />
-                <span>{isAr ? 'مختبر فحص الروابط والنطاقات الحي' : 'Live Domain Parser Sandbox'}</span>
+                <span>Live Domain Parser Sandbox</span>
               </h3>
               <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-                {isAr ? 'اكتب أي رابط أو اختر نموذجاً من القائمة الجاهزة لتحليله فورياً.' : 'Type any custom URL or click a preset sample below to dissect its structure in real-time.'}
+                Type any custom URL or click a preset sample below to dissect its structure in real-time.
               </p>
             </div>
 
@@ -123,7 +116,7 @@ export const DomainInspector: React.FC<DomainInspectorProps> = ({ lang }) => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
             <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800">
               <span className="text-[11px] font-semibold text-slate-400 block mb-1">
-                {isAr ? 'البروتوكول والتشفير' : 'Protocol'}
+                Protocol
               </span>
               <div className="flex items-center gap-1.5 font-mono text-xs font-bold text-slate-800 dark:text-slate-200">
                 {analysis.isHttps ? (
@@ -137,7 +130,7 @@ export const DomainInspector: React.FC<DomainInspectorProps> = ({ lang }) => {
 
             <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800">
               <span className="text-[11px] font-semibold text-slate-400 block mb-1">
-                {isAr ? 'النطاق الفرعي' : 'Subdomain'}
+                Subdomain
               </span>
               <span className="font-mono text-xs font-semibold text-slate-800 dark:text-slate-200 truncate block">
                 {analysis.subdomain || '(none)'}
@@ -146,7 +139,7 @@ export const DomainInspector: React.FC<DomainInspectorProps> = ({ lang }) => {
 
             <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800">
               <span className="text-[11px] font-semibold text-slate-400 block mb-1">
-                {isAr ? 'النطاق المسجل الحقيقي' : 'Registered Domain'}
+                Registered Root Domain
               </span>
               <span className="font-mono text-xs font-bold text-emerald-600 dark:text-emerald-400 truncate block">
                 {analysis.registeredDomain}
@@ -155,7 +148,7 @@ export const DomainInspector: React.FC<DomainInspectorProps> = ({ lang }) => {
 
             <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800">
               <span className="text-[11px] font-semibold text-slate-400 block mb-1">
-                {isAr ? 'امتداد النطاق (TLD)' : 'Top Level Domain'}
+                Top Level Domain
               </span>
               <span className="font-mono text-xs font-semibold text-slate-800 dark:text-slate-200 block">
                 {analysis.tld}
@@ -184,52 +177,46 @@ export const DomainInspector: React.FC<DomainInspectorProps> = ({ lang }) => {
               <div>
                 <h4 className="text-sm font-bold">
                   {analysis.riskLevel === 'danger'
-                    ? isAr
-                      ? 'تحذير أمني عالي: هذا الرابط احتيالي ومخادع!'
-                      : 'High Risk: Deceptive Phishing Indicators Detected!'
+                    ? 'High Risk: Deceptive Phishing Indicators Detected!'
                     : analysis.riskLevel === 'warning'
-                    ? isAr
-                      ? 'تنبيه: تم رصد مؤشرات مثيرة للشك'
-                      : 'Warning: Suspicious Indicators Present'
-                    : isAr
-                    ? 'رابط سليم: متوافق مع النطاقات الرسمية المعتمدة'
+                    ? 'Warning: Suspicious Indicators Present'
                     : 'Safe Domain: Structure Aligns with Legitimate Host'}
                 </h4>
                 {analysis.flags.length > 0 && (
                   <p className="text-xs mt-1 leading-relaxed opacity-90">
-                    {isAr ? analysis.flags[0].descriptionAr : analysis.flags[0].descriptionEn}
+                    {analysis.flags[0].description}
                   </p>
                 )}
               </div>
             </div>
 
             <div className="text-right shrink-0">
-              <span className="text-xs opacity-75 block font-mono">{isAr ? 'تقييم السلامة' : 'Safety Score'}</span>
+              <span className="text-xs opacity-75 block font-mono">Safety Score</span>
               <span className="text-xl font-bold font-mono tabular-nums">{analysis.riskScore} / 100</span>
             </div>
           </div>
         </div>
 
-        {/* 4 Deception Tricks Comparison Table (from original assignment) */}
+        {/* 4 Deception Tricks Comparison Table */}
         <div className="mb-12">
           <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">
-            {isAr ? 'جدول مقارنة حيل النطاقات الأكثر شيوعاً' : 'Common Domain Deception Tricks vs. Authentic Domains'}
+            Common Domain Deception Tricks vs. Authentic Domains
           </h3>
           <div className="overflow-x-auto border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-900 shadow-sm">
             <table className="w-full text-left text-sm">
               <thead>
                 <tr className="bg-slate-100 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-800 text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
-                  <th className="py-3.5 px-4">{isAr ? 'الحيلة المستخدمة' : 'Deception Trick'}</th>
-                  <th className="py-3.5 px-4">{isAr ? 'العنوان المزيف' : 'Fake Address'}</th>
-                  <th className="py-3.5 px-4">{isAr ? 'العنوان الحقيقي المعتمد' : 'Real Authentic Address'}</th>
-                  <th className="py-3.5 px-4 hidden md:table-cell">{isAr ? 'سبب الخطر' : 'Why it is dangerous'}</th>
+                  <th className="py-3.5 px-4">Deception Trick</th>
+                  <th className="py-3.5 px-4">Fake Address</th>
+                  <th className="py-3.5 px-4">Real Authentic Address</th>
+                  <th className="py-3.5 px-4 hidden md:table-cell">Why it is dangerous</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800 font-mono text-xs sm:text-sm">
                 {DOMAIN_EXAMPLES.map((ex, i) => (
                   <tr key={i} className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
                     <td className="py-3 px-4 font-sans font-semibold text-slate-900 dark:text-white">
-                      {isAr ? ex.trickAr : ex.trickEn}
+                      {ex.trick}
                     </td>
                     <td className="py-3 px-4 text-rose-600 dark:text-rose-400 font-bold break-all">
                       {ex.fake}
@@ -238,7 +225,7 @@ export const DomainInspector: React.FC<DomainInspectorProps> = ({ lang }) => {
                       {ex.real}
                     </td>
                     <td className="py-3 px-4 font-sans text-xs text-slate-500 dark:text-slate-400 hidden md:table-cell">
-                      {isAr ? ex.whyAr : ex.whyEn}
+                      {ex.why}
                     </td>
                   </tr>
                 ))}
@@ -247,19 +234,17 @@ export const DomainInspector: React.FC<DomainInspectorProps> = ({ lang }) => {
           </div>
         </div>
 
-        {/* 3 Insights: Padlock Myth, Warning signs, Safe Habits (from assignment) */}
+        {/* 3 Insights: Padlock Myth, Warning signs, Safe Habits */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 sm:p-6 shadow-sm">
             <div className="w-8 h-8 rounded-lg bg-rose-100 dark:bg-rose-950/50 flex items-center justify-center mb-3">
               <Lock className="w-4 h-4 text-rose-600 dark:text-rose-400" />
             </div>
             <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">
-              {isAr ? 'رمز القفل ليس دليلاً على الأمان!' : 'The Padlock is NOT Proof of Safety'}
+              The Padlock is NOT Proof of Safety
             </h3>
             <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              {isAr
-                ? 'وجود HTTPS ورمز القفل يعني فقط أن الاتصال بينك وبين الخادم مشفر، ولا يعني أن الموقع موثوق. المهاجمون يحصلون على شهادات HTTPS مجانية لمواقعهم المزيفة أيضاً!'
-                : 'HTTPS only guarantees that the communication tunnel is encrypted against Wi-Fi sniffers. Threat actors acquire free SSL certificates for phishing sites in seconds. Always audit the root domain.'}
+              HTTPS only guarantees that the communication tunnel is encrypted against Wi-Fi sniffers. Threat actors acquire free SSL certificates for phishing sites in seconds. Always audit the root domain.
             </p>
           </div>
 
@@ -268,12 +253,10 @@ export const DomainInspector: React.FC<DomainInspectorProps> = ({ lang }) => {
               <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400" />
             </div>
             <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">
-              {isAr ? 'علامات تحذيرية إضافية' : 'Secondary Warning Signs'}
+              Secondary Warning Signs
             </h3>
             <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              {isAr
-                ? 'أخطاء إملائية ركيكة، شعارات منخفضة الجودة ومقطوعة، نوافذ منبثقة مفاجئة تطلب أرقام بطاقات الائتمان، وصفحات لا يمكن الوصول إليها إلا عبر رابط بريد.'
-                : 'Pervasive grammatical typos, blurry low-resolution logos, aggressive pop-up overlays demanding credit card numbers, and landing pages reached solely via unverified links.'}
+              Pervasive grammatical typos, blurry low-resolution logos, aggressive pop-up overlays demanding credit card numbers, and landing pages reached solely via unverified links.
             </p>
           </div>
 
@@ -282,12 +265,10 @@ export const DomainInspector: React.FC<DomainInspectorProps> = ({ lang }) => {
               <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
             </div>
             <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">
-              {isAr ? 'العادة الرقمية الأكثر أماناً' : 'The Safest Browsing Habit'}
+              The Safest Browsing Habit
             </h3>
             <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              {isAr
-                ? 'لا تنقر على روابط تسجيل الدخول المرسلة إليك. اكتب عنوان الموقع بيدك في شريط المتصفح أو استخدم المفضلة المحفوظة لديك مسبقاً، ثم سجل دخولك من هناك.'
-                : 'Never follow email links to sign in. Manually type the official address into your browser bar or use previously saved authenticated bookmarks.'}
+              Never follow email links to sign in. Manually type the official address into your browser bar or use previously saved authenticated bookmarks.
             </p>
           </div>
         </div>

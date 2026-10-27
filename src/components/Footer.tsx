@@ -1,14 +1,7 @@
 import React from 'react';
 import { Shield, ArrowUp } from 'lucide-react';
-import { Language } from '../data/trainingData';
 
-interface FooterProps {
-  lang: Language;
-}
-
-export const Footer: React.FC<FooterProps> = ({ lang }) => {
-  const isAr = lang === 'ar';
-
+export const Footer: React.FC = () => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -26,23 +19,23 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
                 CodeAlpha Cyber Security Internship
               </div>
               <div className="text-xs text-slate-500">
-                {isAr ? 'المهمة الثانية: وحدة التوعية بالهندسة الاجتماعية والتصيد' : 'Task 2: Phishing Awareness Training Module'}
+                Task 2: Phishing Awareness Training Module
               </div>
             </div>
           </div>
 
           <div className="flex items-center gap-6 text-xs">
             <a href="#what" className="hover:text-slate-900 dark:hover:text-white transition-colors">
-              {isAr ? 'المفاهيم' : 'Overview'}
+              Overview
             </a>
             <a href="#email" className="hover:text-slate-900 dark:hover:text-white transition-colors">
-              {isAr ? 'فحص الإيميل' : 'Email Lab'}
+              Email Lab
             </a>
             <a href="#web" className="hover:text-slate-900 dark:hover:text-white transition-colors">
-              {isAr ? 'تحليل النطاقات' : 'Domain Lab'}
+              Domain Lab
             </a>
             <a href="#quiz" className="hover:text-slate-900 dark:hover:text-white transition-colors">
-              {isAr ? 'الاختبار' : 'Quiz'}
+              Quiz
             </a>
             <button
               type="button"
@@ -50,16 +43,14 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
               className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg transition-colors"
             >
               <ArrowUp className="w-3.5 h-3.5" />
-              <span>{isAr ? 'للأعلى' : 'Top'}</span>
+              <span>Top</span>
             </button>
           </div>
         </div>
 
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
           <p>
-            {isAr
-              ? 'تم التطوير كمتطلب تدريبي لبرنامج CodeAlpha للأمن السيبراني. جميع النماذج لغايات تعليمية فقط.'
-              : 'Developed for the CodeAlpha Cyber Security Internship. All simulations are for educational security training purposes.'}
+            Developed for the CodeAlpha Cyber Security Internship. All simulations are for educational security training purposes.
           </p>
           <p className="font-mono text-[11px] opacity-75">v2.0 · PhishAware</p>
         </div>

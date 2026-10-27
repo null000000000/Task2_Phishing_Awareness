@@ -50,13 +50,13 @@ test('calculateQuizResult evaluates pass and fail thresholds accurately', () => 
 test('calculateChecklistProgress calculates percentage and security tiers', () => {
   const full = calculateChecklistProgress(8, 8);
   assert.equal(full.percentage, 100);
-  assert.equal(full.levelEn, 'Fortified & Resilient');
+  assert.equal(full.level, 'Fortified & Resilient');
 
   const half = calculateChecklistProgress(4, 8);
   assert.equal(half.percentage, 50);
-  assert.equal(half.levelEn, 'Moderate Defense');
+  assert.equal(half.level, 'Moderate Defense');
 
   const zero = calculateChecklistProgress(0, 8);
   assert.equal(zero.percentage, 0);
-  assert.equal(zero.levelEn, 'Vulnerable');
+  assert.equal(zero.level, 'Vulnerable');
 });

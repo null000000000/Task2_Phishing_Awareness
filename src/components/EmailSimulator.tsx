@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
 import { Mail, CheckCircle2, RotateCcw, Eye, AlertTriangle, Paperclip, ShieldAlert, Sparkles } from 'lucide-react';
-import { EMAIL_FLAGS, Language, RedFlagItem } from '../data/trainingData';
+import { EMAIL_FLAGS, RedFlagItem } from '../data/trainingData';
 
-interface EmailSimulatorProps {
-  lang: Language;
-}
-
-export const EmailSimulator: React.FC<EmailSimulatorProps> = ({ lang }) => {
-  const isAr = lang === 'ar';
+export const EmailSimulator: React.FC = () => {
   const [foundFlags, setFoundFlags] = useState<number[]>([]);
   const [activeFlag, setActiveFlag] = useState<RedFlagItem | null>(null);
 
@@ -41,15 +36,13 @@ export const EmailSimulator: React.FC<EmailSimulatorProps> = ({ lang }) => {
         {/* Section Header */}
         <div className="max-w-3xl mb-10">
           <div className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-teal-600 dark:text-teal-400 mb-2">
-            {isAr ? 'المحور الثاني: فحص رسائل البريد الإلكتروني' : 'Module 02: Interactive Email Inspection'}
+            Module 02: Interactive Email Inspection
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 [text-wrap:balance]">
-            {isAr ? 'كيف تكتشف رسالة البريد الاحتيالية؟' : 'How to Recognize a Phishing Email'}
+            How to Recognize a Phishing Email
           </h2>
           <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-            {isAr
-              ? 'أمامك نموذج واقعي لرسالة تصيد نموذجية. انقر على الأجزاء المشبوهة (المحددة بخطوط متقطعة) لتشريح علامات الخطر واكتشاف الثغرات التي يعتمد عليها المهاجم.'
-              : 'Below is a replica of a deceptive phishing attack. Tap or click every suspicious element (underlined with dashed marks) to uncover why security analysts flag it as dangerous.'}
+            Below is a replica of a deceptive phishing attack. Tap or click every suspicious element (underlined with dashed marks) to uncover why security analysts flag it as dangerous.
           </p>
         </div>
 
@@ -60,7 +53,7 @@ export const EmailSimulator: React.FC<EmailSimulatorProps> = ({ lang }) => {
               <span className="flex items-center gap-2">
                 <ShieldAlert className="w-4 h-4 text-rose-500" />
                 <span>
-                  {isAr ? 'علامات الخطر المكتشفة:' : 'Red Flags Identified:'}{' '}
+                  Red Flags Identified:{' '}
                   <strong className="font-mono text-rose-600 dark:text-rose-400">
                     {foundCount} / {totalFlags}
                   </strong>
@@ -69,7 +62,7 @@ export const EmailSimulator: React.FC<EmailSimulatorProps> = ({ lang }) => {
               {isAllFound && (
                 <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 text-xs font-semibold">
                   <Sparkles className="w-4 h-4" />
-                  <span>{isAr ? 'أحسنت! كشفت كل الحيل' : 'All flags detected!'}</span>
+                  <span>Well done, you caught them all!</span>
                 </span>
               )}
             </div>
@@ -92,7 +85,7 @@ export const EmailSimulator: React.FC<EmailSimulatorProps> = ({ lang }) => {
               className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
             >
               <Eye className="w-3.5 h-3.5" />
-              <span>{isAr ? 'كشف الكل' : 'Reveal All'}</span>
+              <span>Reveal All</span>
             </button>
             <button
               onClick={handleReset}
@@ -100,14 +93,14 @@ export const EmailSimulator: React.FC<EmailSimulatorProps> = ({ lang }) => {
               className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
             >
               <RotateCcw className="w-3.5 h-3.5" />
-              <span>{isAr ? 'إعادة تعيين' : 'Reset'}</span>
+              <span>Reset</span>
             </button>
           </div>
         </div>
 
         {/* Email Client Layout & Inspector */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* Email Container (8 Cols) */}
+          {/* Email Container (7 Cols) */}
           <div dir="ltr" className="lg:col-span-7 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm overflow-hidden text-left">
             {/* Mail Client Header / Top Bar */}
             <div className="px-5 py-3.5 bg-slate-100 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
@@ -212,7 +205,7 @@ export const EmailSimulator: React.FC<EmailSimulatorProps> = ({ lang }) => {
 
               <div className="pt-2">
                 <span className="text-slate-600 dark:text-slate-400 text-xs block mb-1.5">
-                  {isAr ? 'المرفقات المرفقة مع الرسالة:' : 'Email Attachment:'}
+                  Email Attachment:
                 </span>
                 <button
                   type="button"
@@ -230,8 +223,8 @@ export const EmailSimulator: React.FC<EmailSimulatorProps> = ({ lang }) => {
               </div>
 
               <div className="pt-4 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400">
-                <p>{isAr ? 'شكراً لتعاونكم،' : 'Thank you,'}</p>
-                <p className="font-semibold">{isAr ? 'فريق أمان الحسابات' : 'Security Team'}</p>
+                <p>Thank you,</p>
+                <p className="font-semibold">Security Team</p>
               </div>
             </div>
           </div>
@@ -242,7 +235,7 @@ export const EmailSimulator: React.FC<EmailSimulatorProps> = ({ lang }) => {
               <div className="flex items-center gap-2 pb-3 mb-3 border-b border-slate-100 dark:border-slate-800">
                 <AlertTriangle className="w-4 h-4 text-amber-500" />
                 <h3 className="text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white">
-                  {isAr ? 'لوحة تحليل علامة الخطر' : 'Threat Intelligence Analysis'}
+                  Threat Intelligence Analysis
                 </h3>
               </div>
 
@@ -250,7 +243,7 @@ export const EmailSimulator: React.FC<EmailSimulatorProps> = ({ lang }) => {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-semibold text-rose-600 dark:text-rose-400">
-                      {isAr ? activeFlag.labelAr : activeFlag.labelEn}
+                      {activeFlag.label}
                     </span>
                     <span className="text-xs font-mono text-slate-400">
                       Flag 0{activeFlag.id + 1}
@@ -258,27 +251,25 @@ export const EmailSimulator: React.FC<EmailSimulatorProps> = ({ lang }) => {
                   </div>
 
                   <div className="p-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 font-mono text-xs text-slate-800 dark:text-slate-200 break-all">
-                    "{activeFlag.textEn}"
+                    "{activeFlag.text}"
                   </div>
 
                   <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                    {isAr ? activeFlag.explanationAr : activeFlag.explanationEn}
+                    {activeFlag.explanation}
                   </p>
 
                   <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center gap-2 text-xs text-emerald-600 dark:text-emerald-400 font-medium">
                     <CheckCircle2 className="w-4 h-4" />
-                    <span>{isAr ? 'تم تسجيل هذه النقطة في رصيدك' : 'Verified by defense prober'}</span>
+                    <span>Verified by defense prober</span>
                   </div>
                 </div>
               ) : (
                 <div className="text-center py-8 text-slate-500 dark:text-slate-400 text-sm">
                   <p className="mb-2">
-                    {isAr
-                      ? 'حدد أو انقر على أي جزء متقطع بالرسالة لعرض التحليل الأمني.'
-                      : 'Click any dashed element inside the email client to inspect why it triggers an alert.'}
+                    Click any dashed element inside the email client to inspect why it triggers an alert.
                   </p>
                   <span className="text-xs text-slate-400 dark:text-slate-500">
-                    {isAr ? 'ابدأ بالمرسل أو الموضوع أو الرابط' : 'Try checking the sender address or link'}
+                    Try checking the sender address or link
                   </span>
                 </div>
               )}
@@ -287,7 +278,7 @@ export const EmailSimulator: React.FC<EmailSimulatorProps> = ({ lang }) => {
             {/* Red Flag List Summary */}
             <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm">
               <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">
-                {isAr ? 'قائمة المؤشرات الستة:' : 'The 6 Suspicious Indicators:'}
+                The 6 Suspicious Indicators:
               </h4>
               <div className="space-y-2">
                 {EMAIL_FLAGS.map((flag) => {
@@ -304,7 +295,7 @@ export const EmailSimulator: React.FC<EmailSimulatorProps> = ({ lang }) => {
                       }`}
                     >
                       <span className="truncate pr-2">
-                        {isAr ? flag.labelAr : flag.labelEn}
+                        {flag.label}
                       </span>
                       {isFound ? (
                         <CheckCircle2 className="w-3.5 h-3.5 text-rose-500 shrink-0" />
@@ -319,38 +310,32 @@ export const EmailSimulator: React.FC<EmailSimulatorProps> = ({ lang }) => {
           </div>
         </div>
 
-        {/* 3 Pillars of Email Verification (from original assignment) */}
+        {/* 3 Pillars of Email Verification */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-5">
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 sm:p-6 shadow-sm">
             <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">
-              {isAr ? '1. فحص عنوان المرسل' : '1. Check the Sender'}
+              1. Check the Sender
             </h3>
             <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              {isAr
-                ? 'انظر إلى عنوان البريد الفعلي وليس الاسم المعروض فقط. راقب الأحرف المستبدلة (مثل paypa1) والنطاقات الغريبة أو الحسابات المجانية.'
-                : 'Scrutinize the actual email address, not just the display name. Watch out for swapped letters (paypa1 instead of paypal) and non-corporate domains.'}
+              Scrutinize the actual email address, not just the display name. Watch out for swapped letters (paypa1 instead of paypal) and non-corporate domains.
             </p>
           </div>
 
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 sm:p-6 shadow-sm">
             <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">
-              {isAr ? '2. فحص النبرة والأسلوب' : '2. Check the Tone'}
+              2. Check the Tone
             </h3>
             <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              {isAr
-                ? 'الاستعجال المبالغ فيه، التهديد بغلق الحساب خلال 24 ساعة، أو الوعود بالجوائز مصممة لدفعك لاتخاذ قرار سريع دون تفكير متأنٍ.'
-                : 'Urgency, imminent deadlines, threats of closure, and unexpected prizes are psychological levers designed to bypass calm evaluation.'}
+              Urgency, imminent deadlines, threats of closure, and unexpected prizes are psychological levers designed to bypass calm evaluation.
             </p>
           </div>
 
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 sm:p-6 shadow-sm">
             <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">
-              {isAr ? '3. فحص الروابط والملفات' : '3. Check Links & Files'}
+              3. Check Links & Files
             </h3>
             <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              {isAr
-                ? 'مرر الفأرة فوق الروابط لمعرفة النطاق الحقيقي قبل النقر. وكن حذراً للغاية من ملفات ZIP وEXE ومستندات Office التي تطلب تفعيل الماكرو.'
-                : 'Hover over hyperlinks before clicking to read destination hosts. Exercise extreme caution with ZIP archives, EXE installers, and macro-enabled documents.'}
+              Hover over hyperlinks before clicking to read destination hosts. Exercise extreme caution with ZIP archives, EXE installers, and macro-enabled documents.
             </p>
           </div>
         </div>

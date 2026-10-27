@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
 import { Mail, Target, Smartphone, PhoneCall, Building2, Globe, ChevronDown, ChevronUp, AlertCircle } from 'lucide-react';
-import { PHISHING_TYPES, Language } from '../data/trainingData';
+import { PHISHING_TYPES } from '../data/trainingData';
 
-interface WhatIsPhishingProps {
-  lang: Language;
-}
-
-export const WhatIsPhishing: React.FC<WhatIsPhishingProps> = ({ lang }) => {
-  const isAr = lang === 'ar';
+export const WhatIsPhishing: React.FC = () => {
   const [selectedType, setSelectedType] = useState<string | null>(null);
 
   const getIcon = (iconName: string) => {
@@ -35,15 +30,13 @@ export const WhatIsPhishing: React.FC<WhatIsPhishingProps> = ({ lang }) => {
         {/* Section Header */}
         <div className="max-w-3xl mb-12">
           <div className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-teal-600 dark:text-teal-400 mb-2">
-            {isAr ? 'المحور الأول: المفهوم والأنواع' : 'Module 01: Concept & Attack Vectors'}
+            Module 01: Concept & Attack Vectors
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 [text-wrap:balance]">
-            {isAr ? 'ما هو التصيد الاحتيالي (Phishing)؟' : 'What is Phishing?'}
+            What is Phishing?
           </h2>
           <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-            {isAr
-              ? 'التصيد هو هجوم إلكتروني يتظاهر فيه المعتدي بأنه جهة أو شخص موثوق (بنك، مديرك في العمل، شركة شحن، أو جهة حكومية) للإيقاع بك ودفعك لتسليم كلمات المرور، أو الأموال، أو البيانات الشخصية، أو لتثبيت برمجيات خبيثة على جهازك. وعلى الرغم من أنه يبدأ غالباً عبر البريد، إلا أن الحيل تتكرر عبر مسارات وقنوات متعددة.'
-              : 'Phishing is a social engineering cyber attack where an adversary masquerades as a trusted entity (a bank, your employer, a shipping carrier, or IT support) to manipulate you into relinquishing credentials, confidential financial data, or deploying malware. While historically delivered via email, modern threat actors exploit multi-channel deception.'}
+            Phishing is a social engineering cyber attack where an adversary masquerades as a trusted entity (a bank, your employer, a shipping carrier, or IT support) to manipulate you into relinquishing credentials, confidential financial data, or deploying malware. While historically delivered via email, modern threat actors exploit multi-channel deception.
           </p>
         </div>
 
@@ -71,11 +64,11 @@ export const WhatIsPhishing: React.FC<WhatIsPhishingProps> = ({ lang }) => {
                   </div>
 
                   <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
-                    {isAr ? type.titleAr : type.titleEn}
+                    {type.title}
                   </h3>
 
                   <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
-                    {isAr ? type.summaryAr : type.summaryEn}
+                    {type.summary}
                   </p>
 
                   <button
@@ -84,17 +77,17 @@ export const WhatIsPhishing: React.FC<WhatIsPhishingProps> = ({ lang }) => {
                     className="inline-flex items-center gap-1.5 text-xs font-semibold text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded py-1"
                     aria-expanded={isExpanded}
                   >
-                    <span>{isExpanded ? (isAr ? 'إخفاء المثال' : 'Hide Scenario') : (isAr ? 'عرض مثال واقعي' : 'View Real Scenario')}</span>
+                    <span>{isExpanded ? 'Hide Scenario' : 'View Real Scenario'}</span>
                     {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                   </button>
 
                   {isExpanded && (
                     <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800/80 bg-slate-50 dark:bg-slate-800/50 -mx-5 -mb-5 sm:-mx-6 sm:-mb-6 p-4">
                       <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">
-                        {isAr ? 'سيناريو الهجوم النموذجي:' : 'Typical Attack Scenario:'}
+                        Typical Attack Scenario:
                       </div>
                       <p className="text-xs text-slate-700 dark:text-slate-200 leading-relaxed">
-                        {isAr ? type.exampleAr : type.exampleEn}
+                        {type.example}
                       </p>
                     </div>
                   )}

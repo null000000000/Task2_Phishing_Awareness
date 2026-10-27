@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { CheckSquare, Square, ShieldCheck, AlertOctagon, RotateCcw } from 'lucide-react';
-import { SAFETY_CHECKLIST, EMERGENCY_STEPS, Language } from '../data/trainingData';
+import { SAFETY_CHECKLIST, EMERGENCY_STEPS } from '../data/trainingData';
 import { calculateChecklistProgress } from '../utils/phishingLogic';
-
-interface SafetyChecklistProps {
-  lang: Language;
-}
 
 const STORAGE_KEY = 'codealpha_phish_checklist';
 
-export const SafetyChecklist: React.FC<SafetyChecklistProps> = ({ lang }) => {
-  const isAr = lang === 'ar';
+export const SafetyChecklist: React.FC = () => {
   const [checkedIds, setCheckedIds] = useState<string[]>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -50,15 +45,13 @@ export const SafetyChecklist: React.FC<SafetyChecklistProps> = ({ lang }) => {
         {/* Section Header */}
         <div className="max-w-3xl mb-12">
           <div className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-teal-600 dark:text-teal-400 mb-2">
-            {isAr ? 'المحور السادس: أفضل الممارسات وطوارئ الاختراق' : 'Module 06: Best Practices & Incident Response'}
+            Module 06: Best Practices & Incident Response
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 [text-wrap:balance]">
-            {isAr ? 'إجراءات الحماية وقائمة الأمان اليومية' : 'Best Practices to Stay Safe'}
+            Best Practices to Stay Safe
           </h2>
           <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-            {isAr
-              ? 'الأمن السيبراني عادة مستمرة وليس إجراءً لمرة واحدة. حدد الإجراءات التي تطبقها في حياتك اليومية لمعرفة مستوى مناعتك الرقمية، واطلع على خطة الطوارئ الفورية إذا نقرت على رابط مشبوه بالخطأ.'
-              : 'Cyber hygiene is an active operational discipline. Check off the security defenses you currently maintain to benchmark your cyber defense posture, and review the immediate incident response protocol below.'}
+            Cyber hygiene is an active operational discipline. Check off the security defenses you currently maintain to benchmark your cyber defense posture, and review the immediate incident response protocol below.
           </p>
         </div>
 
@@ -69,13 +62,13 @@ export const SafetyChecklist: React.FC<SafetyChecklistProps> = ({ lang }) => {
               <div className="flex items-center gap-2 mb-1">
                 <ShieldCheck className="w-5 h-5 text-teal-600 dark:text-teal-400" />
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-                  {isAr ? 'قائمة الفحص والتحصين الشخصي' : 'Personal Security Health Score'}
+                  Personal Security Health Score
                 </h3>
               </div>
               <span className="text-xs text-slate-500 dark:text-slate-400">
-                {isAr ? 'مستوى الحماية الحالي:' : 'Current Defense Posture:'}{' '}
+                Current Defense Posture:{' '}
                 <strong className="text-teal-600 dark:text-teal-400">
-                  {isAr ? progress.levelAr : progress.levelEn}
+                  {progress.level}
                 </strong>
               </span>
             </div>
@@ -89,14 +82,14 @@ export const SafetyChecklist: React.FC<SafetyChecklistProps> = ({ lang }) => {
                 onClick={handleSelectAll}
                 className="px-2.5 py-1 text-xs font-medium text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-md transition-colors"
               >
-                {isAr ? 'تحديد الكل' : 'Select All'}
+                Select All
               </button>
               <button
                 type="button"
                 onClick={handleReset}
                 className="p-1.5 text-slate-500 hover:text-slate-700 dark:hover:text-slate-200 rounded-md transition-colors"
-                title={isAr ? 'إعادة ضبط' : 'Reset'}
-                aria-label={isAr ? 'إعادة ضبط' : 'Reset'}
+                title="Reset"
+                aria-label="Reset"
               >
                 <RotateCcw className="w-4 h-4" />
               </button>
@@ -143,10 +136,10 @@ export const SafetyChecklist: React.FC<SafetyChecklistProps> = ({ lang }) => {
                   </div>
                   <div>
                     <h4 className={`text-sm font-bold ${isChecked ? 'text-teal-950 dark:text-teal-200' : 'text-slate-900 dark:text-white'}`}>
-                      {isAr ? item.titleAr : item.titleEn}
+                      {item.title}
                     </h4>
                     <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mt-1">
-                      {isAr ? item.descAr : item.descEn}
+                      {item.desc}
                     </p>
                   </div>
                 </div>
@@ -160,7 +153,7 @@ export const SafetyChecklist: React.FC<SafetyChecklistProps> = ({ lang }) => {
           <div className="flex items-center gap-2 mb-6">
             <AlertOctagon className="w-5 h-5 text-rose-600 dark:text-rose-400" />
             <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
-              {isAr ? 'ماذا تفعل إذا وقعت في الفخ ونقرت بالفعل؟' : 'Incident Response: If You Already Clicked'}
+              Incident Response: If You Already Clicked
             </h3>
           </div>
 
@@ -174,10 +167,10 @@ export const SafetyChecklist: React.FC<SafetyChecklistProps> = ({ lang }) => {
                   0{step.step}
                 </div>
                 <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-2">
-                  {isAr ? step.titleAr : step.titleEn}
+                  {step.title}
                 </h4>
                 <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                  {isAr ? step.descAr : step.descEn}
+                  {step.desc}
                 </p>
               </div>
             ))}

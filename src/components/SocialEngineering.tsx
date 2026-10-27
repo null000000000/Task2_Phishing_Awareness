@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
 import { Brain, Clock, ShieldAlert, UserCheck, Gift, HeartHandshake, Disc, ChevronRight } from 'lucide-react';
-import { SOCIAL_TACTICS, Language } from '../data/trainingData';
+import { SOCIAL_TACTICS } from '../data/trainingData';
 
-interface SocialEngineeringProps {
-  lang: Language;
-}
-
-export const SocialEngineering: React.FC<SocialEngineeringProps> = ({ lang }) => {
-  const isAr = lang === 'ar';
+export const SocialEngineering: React.FC = () => {
   const [activeTacticId, setActiveTacticId] = useState<string>(SOCIAL_TACTICS[0].id);
 
   const getTacticIcon = (id: string) => {
@@ -37,15 +32,13 @@ export const SocialEngineering: React.FC<SocialEngineeringProps> = ({ lang }) =>
         {/* Section Header */}
         <div className="max-w-3xl mb-12">
           <div className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-teal-600 dark:text-teal-400 mb-2">
-            {isAr ? 'المحور الرابع: سيكولوجية الهندسة الاجتماعية' : 'Module 04: The Psychology of Social Engineering'}
+            Module 04: The Psychology of Social Engineering
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 [text-wrap:balance]">
-            {isAr ? 'كيف يتلاعب المهاجمون بعقل الضحية؟' : 'Social Engineering: Hacking the Human Mind'}
+            Social Engineering: Hacking the Human Mind
           </h2>
           <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-            {isAr
-              ? 'التصيد يستهدف الإنسان وليس الآلات. لا يحتاج المهاجم لكسر تشفير معقد إذا استطاع التلاعب بمشاعرك لتعطيل التفكير المنطقي. هذه هي الركائز النفسية الست الأكثر استخداماً.'
-              : 'Phishing exploits human cognitive vulnerabilities rather than software bugs. Threat actors weaponize psychological triggers to induce an emotional reflex that overrides logical suspicion. Understand these six cognitive levers.'}
+            Phishing exploits human cognitive vulnerabilities rather than software bugs. Threat actors weaponize psychological triggers to induce an emotional reflex that overrides logical suspicion. Understand these six cognitive levers.
           </p>
         </div>
 
@@ -53,7 +46,7 @@ export const SocialEngineering: React.FC<SocialEngineeringProps> = ({ lang }) =>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Tactic Selector List (5 Cols) */}
           <div className="lg:col-span-5 space-y-2">
-            {SOCIAL_TACTICS.map((tactic, idx) => {
+            {SOCIAL_TACTICS.map((tactic) => {
               const isSelected = tactic.id === activeTacticId;
               return (
                 <button
@@ -72,17 +65,17 @@ export const SocialEngineering: React.FC<SocialEngineeringProps> = ({ lang }) =>
                     </div>
                     <div>
                       <h3 className="text-sm font-bold text-slate-900 dark:text-white">
-                        {isAr ? tactic.titleAr : tactic.titleEn}
+                        {tactic.title}
                       </h3>
                       <span className="text-xs text-slate-500 dark:text-slate-400 block truncate max-w-[200px] sm:max-w-xs">
-                        {isAr ? tactic.quoteAr : tactic.quoteEn}
+                        {tactic.quote}
                       </span>
                     </div>
                   </div>
                   <ChevronRight
                     className={`w-4 h-4 text-slate-400 transition-transform ${
                       isSelected ? 'text-teal-600 dark:text-teal-400 transform translate-x-0.5' : ''
-                    } ${isAr ? 'rotate-180' : ''}`}
+                    }`}
                   />
                 </button>
               );
@@ -97,21 +90,21 @@ export const SocialEngineering: React.FC<SocialEngineeringProps> = ({ lang }) =>
                   {getTacticIcon(activeTactic.id)}
                 </div>
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-                  {isAr ? activeTactic.titleAr : activeTactic.titleEn}
+                  {activeTactic.title}
                 </h3>
               </div>
               <span className="text-xs font-mono font-semibold text-teal-600 dark:text-teal-400 uppercase tracking-wider">
-                {isAr ? 'تحليل السلوك' : 'Behavioral Analysis'}
+                Behavioral Analysis
               </span>
             </div>
 
             {/* Attacker Bait Quote */}
             <div className="mb-6 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800">
               <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block mb-1">
-                {isAr ? 'العبارة النموذجية التي يستخدمها المحتال:' : 'Attacker Bait Hook / Phrase:'}
+                Attacker Bait Hook / Phrase:
               </span>
               <p className="text-sm sm:text-base font-semibold text-rose-600 dark:text-rose-400 italic">
-                "{isAr ? activeTactic.quoteAr : activeTactic.quoteEn}"
+                "{activeTactic.quote}"
               </p>
             </div>
 
@@ -119,20 +112,20 @@ export const SocialEngineering: React.FC<SocialEngineeringProps> = ({ lang }) =>
             <div className="space-y-4 mb-6">
               <div>
                 <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">
-                  {isAr ? 'الآلية النفسية المستغلة:' : 'Cognitive Vulnerability Targeted:'}
+                  Cognitive Vulnerability Targeted:
                 </h4>
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-                  {isAr ? activeTactic.descriptionAr : activeTactic.descriptionEn}
+                  {activeTactic.description}
                 </p>
               </div>
 
               {/* Defensive Countermeasure */}
               <div className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/40">
                 <h4 className="text-xs font-bold text-emerald-800 dark:text-emerald-300 uppercase tracking-wider mb-1">
-                  {isAr ? 'القاعدة الدفاعية الذهبية:' : 'The Golden Rule of Defense:'}
+                  The Golden Rule of Defense:
                 </h4>
                 <p className="text-xs sm:text-sm text-emerald-900 dark:text-emerald-200 leading-relaxed font-medium">
-                  {isAr ? activeTactic.defenseAr : activeTactic.defenseEn}
+                  {activeTactic.defense}
                 </p>
               </div>
             </div>
